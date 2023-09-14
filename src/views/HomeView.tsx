@@ -1,8 +1,8 @@
 import React from 'react';
 import DashboardLayout from '../layouts/DashboardLayout';
 import { Grid, Paper } from '@mui/material';
-import Deposits from '../Deposits';
-import Orders from '../Orders';
+import Deposits from '../components/Deposits';
+import Orders from '../components/Orders';
 
 const HomeView: React.FC = () => {
   return (
