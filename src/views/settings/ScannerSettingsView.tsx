@@ -4,11 +4,13 @@ import { Grid, Paper } from '@mui/material';
 import Title from '@/components/Title';
 import NetworkItem from '@/components/settings/NetworkItem';
 import NetworkItemAdd from '@/components/settings/NetworkItemAdd';
-import useSettingsNetworks from '@/sources/networks/useSettingsNetworks';
 import { toast } from 'sonner';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { NETWORKS_ACTIONS } from '@/store/slices/networksSlice';
 
 const ScannerSettingsView: React.FC = () => {
-  const { networks, addNetwork, editNetwork, deleteNetwork } = useSettingsNetworks();
+  const networks = useAppSelector((state) => state.networks.networks);
+  const dispatch = useAppDispatch();
 
   return (
     <DashboardLayout>
@@ -22,12 +24,12 @@ const ScannerSettingsView: React.FC = () => {
                   <NetworkItem
                     item={network}
                     setItem={(item) => {
+                      dispatch(NETWORKS_ACTIONS.editNetwork({ index, item }));
                       toast.success('Network updated');
-                      editNetwork(index, item);
                     }}
                     deleteItem={() => {
+                      dispatch(NETWORKS_ACTIONS.deleteNetwork({ index }));
                       toast.success('Network deleted');
-                      deleteNetwork(index);
                     }}
                   />
                 </Grid>
@@ -37,7 +39,7 @@ const ScannerSettingsView: React.FC = () => {
               <Grid item xs={4} height={242}>
                 <NetworkItemAdd
                   onClick={() => {
-                    addNetwork();
+                    dispatch(NETWORKS_ACTIONS.addNetwork());
                     toast.success('Network added');
                   }}
                 />
