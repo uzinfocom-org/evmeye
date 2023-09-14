@@ -10,7 +10,7 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    dispatch(NETWORKS_ACTIONS.initNetwork());
+    dispatch(NETWORKS_ACTIONS.init());
   }, []);
 
   return (
