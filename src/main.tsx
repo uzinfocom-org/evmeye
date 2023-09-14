@@ -7,8 +7,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import './index.css';
-import { router } from './router';
+import '@/index.css';
+import { router } from '@/router';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

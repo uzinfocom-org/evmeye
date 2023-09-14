@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
-import HomeView from './views/HomeView';
-import ScannerSettingsView from './views/settings/ScannerSettingsView';
+import HomeView from '@/views/HomeView';
+import ScannerSettingsView from '@/views/settings/ScannerSettingsView';
 
 export const router = createBrowserRouter([
   {
