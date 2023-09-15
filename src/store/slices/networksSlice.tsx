@@ -2,10 +2,11 @@ import { NetworkSchema, TNetwork } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 import type { Middleware, PayloadAction } from '@reduxjs/toolkit';
 import { z } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface NetworksState {
   networks: TNetwork[];
-  selected: number | null;
+  selected: string | null;
 }
 
 const initialState: NetworksState = {
@@ -38,12 +39,7 @@ export const networksSlice = createSlice({
         if (lsNetwork == undefined) return;
 
         try {
-          const zodParsed = z.coerce
-            .number()
-            .gte(0)
-            .lt(state.networks.length)
-            .parse(lsNetwork);
-
+          const zodParsed = z.string().uuid().parse(lsNetwork);
           state.selected = zodParsed;
         } catch (e) {
           state.selected = null;
@@ -52,27 +48,25 @@ export const networksSlice = createSlice({
     },
     addNetwork: (state) => {
       state.networks.push({
+        id: uuidv4(),
         label: '',
         url: '',
       });
     },
-    editNetwork: (
-      state,
-      { payload }: PayloadAction<{ index: number; item: TNetwork }>,
-    ) => {
-      state.networks = state.networks.map((item, index) =>
-        payload.index == index ? payload.item : item,
+    editNetwork: (state, { payload }: PayloadAction<{ network: TNetwork }>) => {
+      state.networks = state.networks.map((n) =>
+        n.id == payload.network.id ? payload.network : n,
       );
     },
-    deleteNetwork: (state, { payload }: PayloadAction<{ index: number }>) => {
-      state.networks = state.networks.filter((_, index) => payload.index != index);
+    deleteNetwork: (state, { payload }: PayloadAction<{ id: string }>) => {
+      state.networks = state.networks.filter((n) => n.id != payload.id);
 
-      if ((state.selected ?? 0) >= state.networks.length) {
+      if (!state.networks.find((n) => n.id == state.selected)) {
         state.selected = null;
       }
     },
-    selectNetwork: (state, { payload }: PayloadAction<{ index: number | null }>) => {
-      state.selected = payload.index;
+    selectNetwork: (state, { payload }: PayloadAction<{ id: string | null }>) => {
+      state.selected = payload.id;
     },
   },
 });

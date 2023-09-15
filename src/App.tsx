@@ -2,7 +2,6 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Toaster } from 'sonner';
 import { router } from '@/router';
-import Scanner from '@/scanner/Scanner';
 import { useAppDispatch } from '@/store/hooks';
 import { NETWORKS_ACTIONS } from '@/store/slices/networksSlice';
 
@@ -11,11 +10,10 @@ const App: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(NETWORKS_ACTIONS.init());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
-      <Scanner />
       <Toaster />
       <RouterProvider router={router} />
     </>

@@ -19,16 +19,16 @@ const ScannerSettingsView: React.FC = () => {
           <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Title mb={2}>Servers</Title>
             <Grid container spacing={3}>
-              {networks.map((network, index) => (
-                <Grid item xs={4} key={index}>
+              {networks.map((network) => (
+                <Grid item xs={4} key={network.id}>
                   <NetworkItem
                     item={network}
-                    setItem={(item) => {
-                      dispatch(NETWORKS_ACTIONS.editNetwork({ index, item }));
+                    setItem={(network) => {
+                      dispatch(NETWORKS_ACTIONS.editNetwork({ network }));
                       toast.success('Network updated');
                     }}
                     deleteItem={() => {
-                      dispatch(NETWORKS_ACTIONS.deleteNetwork({ index }));
+                      dispatch(NETWORKS_ACTIONS.deleteNetwork({ id: network.id }));
                       toast.success('Network deleted');
                     }}
                   />

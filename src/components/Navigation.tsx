@@ -58,7 +58,7 @@ const Navigation: React.FC = () => {
   const location = useLocation();
 
   const networks = useAppSelector((state) => state.networks.networks);
-  const selectedNetworkIndex = useAppSelector((state) => state.networks.selected);
+  const selectedNetworkId = useAppSelector((state) => state.networks.selected);
   const dispatch = useAppDispatch();
 
   return (
@@ -67,22 +67,26 @@ const Navigation: React.FC = () => {
         <Select
           fullWidth
           size="small"
-          value={selectedNetworkIndex ?? -1}
+          value={selectedNetworkId ?? ''}
           onChange={(e) =>
             dispatch(
-              NETWORKS_ACTIONS.selectNetwork({ index: e.target.value as number | null }),
+              NETWORKS_ACTIONS.selectNetwork({ id: e.target.value as string | null }),
             )
           }
-          renderValue={(index) => {
-            if (index == -1) {
+          renderValue={(id) => {
+            if (id.length == 0) {
               return <em>Select network</em>;
             }
 
-            return networks[index].label ?? `Network ${index + 1}`;
+            const network = networks.find((n) => n.id == id);
+
+            const label = network?.label ?? '';
+
+            return label.length == 0 ? `Network` : label;
           }}
         >
-          {networks.map((network, index) => (
-            <MenuItem value={index} key={index}>
+          {networks.map((network) => (
+            <MenuItem value={network.id} key={network.id}>
               {network.label}
             </MenuItem>
           ))}

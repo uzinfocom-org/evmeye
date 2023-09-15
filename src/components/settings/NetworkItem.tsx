@@ -51,7 +51,7 @@ const NetworkItem: React.FC<{
         </Stack>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={() => setItem({ label, url })}>
+        <Button size="small" onClick={() => setItem({ id: item.id, label, url })}>
           Save
         </Button>
         <Button size="small" color="error" onClick={() => deleteItem()}>
